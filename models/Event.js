@@ -1,22 +1,23 @@
-const axios = require('axios');
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
+const eventSchema = new Schema( {
+    eventName: { type: String, required: true },
+    eventType: { type: String, required: true },
+    location: {
+        address: { type: String },
+        city: { type: String },
+        postalCode: { type: String }
+    },
+    startDateTime: { type: Date, required: true },
+    endDateTime: { type: Date, required: true },
+    eventManager: {
+        name: { type: String },
+        email: { type: String },
+    },
+    description: { type: String, required: true },
+});
 
-async function fetchEventsFromAPI(query) {
-    const API_KEY = process.env.SERP_API_KEY || "5ced3ac846127e3925dadb2d0557d18d077a4e29496627abb9d9d923802bca42";
-    const url = "https://serpapi.com/search";
-    const params = {
-        engine: "google_events",
-        q: query,
-        api_key: API_KEY,
-    };
+const Event = mongoose.model('Event', eventSchema);
 
-    try {
-        const response = await axios.get(url, { params });
-        return response.data.events_results || [];
-    } catch (error) {
-        console.error("Fejl ved API-forespørgsel:", error);
-        throw new Error("Kunne ikke hente events fra API.");
-    }
-}
-
-module.exports = { fetchEventsFromAPI };
+module.exports = Event;
