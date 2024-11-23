@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const eventSchema = new Schema( {
-    eventName: { type: String, required: true },
+    eventTitle: { type: String, required: true },
     eventType: { type: String, required: true },
+    age: { type: Number, required: true },
     location: {
         address: { type: String },
         city: { type: String },
@@ -15,7 +16,7 @@ const eventSchema = new Schema( {
         name: { type: String },
         email: { type: String },
     },
-    description: { type: String, required: true },
+    description: { type: String, required: true }
 });
 
 const Event = mongoose.model('Event', eventSchema);
