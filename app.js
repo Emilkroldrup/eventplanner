@@ -8,7 +8,6 @@ const homeRoutes = require('./routes/homeRoutes');
 const path = require('path');
 const eventsRoutes = require('./routes/eventRoutes');
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -18,7 +17,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Routes
-app.use('/auth', authRoutes);
+// app.use('/auth', authRoutes);
+app.use('/events', eventRoutes);
 app.use('/', homeRoutes);
 app.use('/events', eventsRoutes);
 app.use('/user', userRoutes);

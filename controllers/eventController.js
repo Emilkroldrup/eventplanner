@@ -3,12 +3,28 @@ const asyncHandler = require('express-async-handler');
 const eventModel = require('../models/Event');
 const userModel = require('../models/User');
 
+// Render the "Create Event" page
+exports.renderCreateEventPage = (req, res) => {
+  res.render('createEvent', {
+    pageTitle: 'Create Event',
+  });
+};
+
+// Handle form submission // TODO skal bygges senere!
+exports.createEvent = (req, res) => {
+  const { title, city, address, eventType, startDate, duration, description, ageRestriction } = req.body;
+  console.log('Event Data:', { title, city, address, eventType, startDate, duration, description, ageRestriction });
+  res.send('Event created successfully!');
+};
+
+// Get all events
 exports.getEvents = asyncHandler(async(req, res) => {
     const query = req.query.q || "Koncerter i København";
         const events = await fetchEventsFromAPI (query);
         res.render('partials/events', { events });
 });
 
+// Create an event
 exports.createEvent = asyncHandler(async (req, res) => {
     const newEvent = new eventModel(req.body);
     const user = await userModel.findOne({ email: req.body.eventManager.email });
@@ -19,6 +35,7 @@ exports.createEvent = asyncHandler(async (req, res) => {
     return res.status(201).json({ message: 'Event has been created', newEvent });
 });
 
+// Update an event
 exports.updateEvent = asyncHandler (async (req,res) => {
     const { id, ...updateFields } = req.body;
 
@@ -40,9 +57,11 @@ exports.updateEvent = asyncHandler (async (req,res) => {
     )
 });
 
+// Delete an event
 exports.deleteEvent = asyncHandler(async (req, res) => {
     const eventId = req.body.id;
     const email = req.body.email;
+    // Deletes an event from the database
     const event = await eventModel.findOneAndDelete({
         _id: eventId,
         'eventManager.email': email
