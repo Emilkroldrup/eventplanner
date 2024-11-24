@@ -1,0 +1,133 @@
+/* General body styling */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #191826;
+  overflow-x: hidden;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+header {
+  background-color: #2b293d;
+  box-sizing: border-box;
+}
+
+/* Main container for the page */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+  background-color: #3b3955;
+  box-sizing: border-box;
+}
+
+/* Form container */
+.create-event-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 30px;
+  background-color: #3a384c;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+/* Page title */
+.create-event-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+  color: #ffe047;
+}
+
+/* Form grid layout */
+.event-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Labels */
+.form-group label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffe047;
+}
+
+/* Inputs, selects, and textarea */
+.event-form input,
+.event-form select,
+.event-form textarea {
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background-color: #444;
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.event-form input:focus,
+.event-form select:focus,
+.event-form textarea:focus {
+  border-color: #ffe047;
+  outline: none;
+}
+
+/* Read-only inputs (e.g., Host) */
+.event-form input[readonly] {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Description box (textarea) */
+.event-form textarea {
+  resize: both;
+  max-width: 100%;
+  max-height: 200px;
+  min-height: 100px;
+}
+
+/* Submit button */
+.submit-button {
+  grid-column: span 2;
+  background-color: #ffe047;
+  color: #2b293d;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #e5cc3f;
+}
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  .create-event-container {
+    padding: 20px;
+  }
+
+  .event-form {
+    grid-template-columns: 1fr;
+  }
+
+  .submit-button {
+    grid-column: span 1;
+  }
+}

@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 // app.use('/auth', authRoutes);
-// app.use('/events', eventRoutes);
+app.use('/events', eventRoutes);
 app.use('/', homeRoutes);
 
 const PORT = process.env.PORT || 3000;
