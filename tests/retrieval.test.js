@@ -26,4 +26,14 @@ describe('Event retrieval', () => {
                 done();
             });
     });
+
+    it('should filter events by location', (done) => {
+        chai.request(server)
+            .get('/events?location=copenhagen')
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.every(event => event.location==='copenhagen').should.be.true;
+                done();
+            });
+    });
 });

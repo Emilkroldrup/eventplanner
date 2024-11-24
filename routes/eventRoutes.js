@@ -1,9 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { createEvent, renderCreateEventPage } = require('../controllers/eventController');
+const eventController = require('../controllers/eventController');
 
-router.post('/create', createEvent);
+router.post('/create', eventController.createEvent);
 
-router.get('/create', renderCreateEventPage);
+router.get('/create', eventController.renderCreateEventPage);
+
+router.get('/', eventController.getEvents);
+
+router.post('/', eventController.createEvent);
+
+router.put('/', eventController.updateEvent);
+
+router.delete('/', eventController.deleteEvent);
 
 module.exports = router;
