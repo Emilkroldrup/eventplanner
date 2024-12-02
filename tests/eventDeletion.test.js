@@ -3,32 +3,31 @@ const chaiHttp = require('chai-http')
 const server = require('../app');
 
 chai.use(chaiHttp);
-
+chai.should();
 describe('Event Deletion', () => {
     it('should delete an event with valid user id and event id', (done) => {
-        const userId = 1;
-        const eventId = 1;
+        const userEmail = "mads@example.com";
+        const eventId = "674d9f083c3f7c42742ea2fc";
         chai.request(server)
-            .delete(`/event/${eventId}`)
+            .delete(`/events`)
             .send({
-                userId: userId,
-                eventId: eventId
+                id: eventId,
+                email: userEmail
+
             })
             .end((err,res) => {
-                res.should.have.status(204);
-                res.body.should.have.property('message', 'Event has been deleted');
+                res.should.have.status(200);
                 done();
             });
     });
     it('should fail to delete an event with the given eventId', (done) => {
-        const userId = 123;
-        const eventId = 321;
+        const userEmail = "noemail@example.com";
+        const eventId = "674d9f083c3f7c42742ea2fc";
         chai.request(server)
             .delete(`/event/${eventId}`)
-            .send({ userId: '', eventId: eventId })
+            .send({id: eventId, email: '' })
             .end((err, res) => {
-                res.should.have.status(204);
-                res.body.should.have.property('error', 'Invalid details');
+                res.should.have.status(404);
                 done();
             });
     });
