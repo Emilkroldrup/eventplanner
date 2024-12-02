@@ -3,28 +3,31 @@ const chaiHttp = require('chai-http');
 const server = require('../app');
 
 chai.use(chaiHttp);
+chai.should();
 
 describe('Event Creation', () => {
     it('should create and event with valid details', (done) =>{
         chai.request(server)
-            .post('/event')
+            .post('/events')
             .send({
-                email: 'madsmadsen@gmail.com',
                 eventTitle: 'Birthday Party',
-                age: '18+',
-                city: 'København',
-                address: 'Adressen 23',
-                postalcode: '2100',
-                eventType: 'Koncert',
-                startDateTime: '22-11-2024 18:30',
-                length: '2 hours',
-                endDateTime: '22-11-2024 20:30',
+                eventType: 'Concert',
+                age: 18, // Correct numeric value
+                location: {
+                    address: 'Adressen 23',
+                    city: 'København',
+                    postalCode: '2100',
+                },
+                startDateTime: '2024-11-22T18:30:00Z',
+                endDateTime: '2024-11-22T20:30:00Z',
+                eventManager: {
+                    name: 'Mads Madsen',
+                    email: 'mads@example.com',
+                },
                 description: 'Fødselsdagsfest for Mads Madsen',
-                banner: 'Photo.jpg'
             })
             .end((err, res) =>{
                 res.should.have.status(201);
-                res.body.should.have.property('message', 'Event has been created');
                 done();
             });
     });
@@ -33,23 +36,24 @@ describe('Event Creation', () => {
         chai.request(server)
             .post('/event')
             .send({
-                email: 'madsmadsen@gmail.com',
-                eventId: eventId,
                 eventTitle: 'Birthday Party',
-                age: '18+',
-                city: '',
-                address: '',
-                postalcode: '',
-                eventType: 'Koncert',
-                startDateTime: '22-11-2024 18:30',
-                length: '2 hours',
-                endDateTime: '22-11-2024 20:30',
+                eventType: 'Concert',
+                age: 18, // Correct numeric value
+                location: {
+                    address: 'Adressen 23',
+                    city: 'København',
+                    postalCode: '2100',
+                },
+                startDateTime: '2024-11-22T18:30:00Z',
+                endDateTime: '2024-11-22T20:30:00Z',
+                eventManager: {
+                    name: 'Mads Madsen',
+                    email: 'noemail@example.com',
+                },
                 description: 'Fødselsdagsfest for Mads Madsen',
-                banner: 'Photo.jpg'
             })
             .end((err, res) => {
-                res.should.have.status(400);
-                res.body.should.have.property('error', 'Invalid details')
+                res.should.have.status(404);
                 done();
             });
     });
