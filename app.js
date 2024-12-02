@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const homeRoutes = require('./routes/homeRoutes');
 const path = require('path');
 const eventsRoutes = require('./routes/eventRoutes');
+const setupSwagger = require('./service/swaggerService');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +16,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Initialize Swagger
+setupSwagger(app);
 
 // Routes
 // app.use('/auth', authRoutes);
