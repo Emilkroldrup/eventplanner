@@ -12,7 +12,7 @@ describe('Event Creation', () => {
             .send({
                 eventTitle: 'Birthday Party',
                 eventType: 'Concert',
-                age: 18, // Correct numeric value
+                age: 18,
                 location: {
                     address: 'Adressen 23',
                     city: 'København',
@@ -38,7 +38,7 @@ describe('Event Creation', () => {
             .send({
                 eventTitle: 'Birthday Party',
                 eventType: 'Concert',
-                age: 18, // Correct numeric value
+                age: 18,
                 location: {
                     address: 'Adressen 23',
                     city: 'København',
