@@ -24,7 +24,7 @@ describe('Event Deletion', () => {
         const userEmail = "john.doe@example.com";
         const eventId = "674f182b2b64e36cddb6db3c";
         chai.request(server)
-            .delete(`/event/${eventId}`)
+            .delete(`/events`)
             .send({id: eventId, email: '' })
             .end((err, res) => {
                 res.should.have.status(404);
