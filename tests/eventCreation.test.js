@@ -8,7 +8,7 @@ chai.should();
 describe('Event Creation', () => {
     it('should create and event with valid details', (done) =>{
         chai.request(server)
-            .post('/events')
+            .post('/events/create')
             .send({
                 eventTitle: 'Birthday Party',
                 eventType: 'Concert',
@@ -21,8 +21,8 @@ describe('Event Creation', () => {
                 startDateTime: '2024-11-22T18:30:00Z',
                 endDateTime: '2024-11-22T20:30:00Z',
                 eventManager: {
-                    name: 'Mads Madsen',
-                    email: 'mads@example.com',
+                    name: 'John',
+                    email: 'john.doe@example.com',
                 },
                 description: 'Fødselsdagsfest for Mads Madsen',
             })
@@ -34,7 +34,7 @@ describe('Event Creation', () => {
 
     it('should fail to create an event if details are missing', (done) => {
         chai.request(server)
-            .post('/event')
+            .post('/events/create')
             .send({
                 eventTitle: 'Birthday Party',
                 eventType: 'Concert',
