@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 setupSwagger(app);
 
 // Routes
-// app.use('/auth', authRoutes);
+ app.use('/auth', authRoutes);
 app.use('/events', eventRoutes);
 app.use('/', homeRoutes);
 app.use('/events', eventsRoutes);

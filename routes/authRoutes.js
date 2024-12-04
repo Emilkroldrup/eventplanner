@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
 const authMiddleware = require("../middleware/authMiddleware");
+const eventController = require("../controllers/eventController");
 /**
  * @swagger
  * tags:
@@ -106,5 +107,7 @@ router.post("/register", authController.register); // Register endpoint
  *         description: Login failed
  */
 router.post("/login", authController.login); // Login endpoint
+
+router.get('/login', authController.renderLoginPage);
 
 module.exports = router;
