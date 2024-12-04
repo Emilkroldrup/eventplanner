@@ -31,41 +31,49 @@ exports.register = async (req, res) => {
         const newUser = new userModel(user);
         await newUser.save();
 
-        console.log('User created successfully');
-        res.status(201).json({ message: 'User created successfully' });
+        res.redirect('/events');
     } catch (error) {
-        console.error('Registration failed', error);
-        res.status(500).json({ error: "Registration failed" });
+        console.error('Registration failed, Email must be Unique', error);
+        res.redirect('/register?error=Invalid credentials');
     }
 };
 
 // User login
 exports.login = async (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     try {
+
         const user = await userModel.findOne({ email });
         if (!user) {
             console.log('User not found');
-            return res.status(404).json({error: 'User not found'});
+            return res.redirect('/login?error=User not found');
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch)  {
-            console.log('Invalid credentials');
-            return res.status(401).json({error: 'Invalid credentials'});
+        if (!passwordMatch) {
+            return res.redirect('/login?error=Invalid credentials');
         }
 
-        // Generate a token
-        const token = jwt.sign({email: user.email, id: user._id}, secretKey, {expiresIn: '1h'});
-        res.status(200).json({token, message: "Login succesful"});
+        const token = jwt.sign({ email: user.email, id: user._id }, secretKey, { expiresIn: '1h' });
+        console.log('Generated Token:', token);
+
+
+        res.redirect('/events');
     } catch (error) {
-        console.error('Login failed', error);
-        res.status(500).json({error: "Login failed"});
+        console.error('Login failed:', error);
+        res.redirect('/login?error=Login failed');
     }
 };
+
 
 exports.renderLoginPage = (req, res) => {
     res.render('login', {
         pageTitle: 'login',
+    });
+};
+
+exports.renderRegisterPage = (req, res) => {
+    res.render('register', {
+        pageTitle: 'register',
     });
 };

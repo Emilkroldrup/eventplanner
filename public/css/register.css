@@ -1,0 +1,125 @@
+/* General body styling */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #191826;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+header {
+    background-color: #2b293d;
+    box-sizing: border-box;
+}
+
+/* Center the container */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    background-color: #2b293d;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Form container */
+.register-container {
+    width: 100%;
+    max-width: 700px; /* Increased width for horizontal layout */
+    background-color: #3a384c;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Page title */
+.register-container h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #ffe047;
+}
+
+/* Form styling */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form group styling */
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.form-group label {
+    width: 30%; /* Fixed width for labels */
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffe047;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 65%; /* Fixed width for inputs */
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background-color: #444;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: none;
+    min-height: 80px; /* Fixed height for text area */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #ffe047;
+}
+
+/* Submit button styling */
+.submit-button {
+    background-color: #ffe047;
+    color: #2b293d;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px; /* Spacing above the button */
+    width: 100%; /* Full width button */
+}
+
+.submit-button:hover {
+    background-color: #e6d03e;
+}
+
+
+@media (max-width: 768px) {
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-group label,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+    }
+}

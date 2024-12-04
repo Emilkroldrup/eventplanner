@@ -59,6 +59,7 @@ const eventController = require("../controllers/eventController");
  *       500:
  *         description: Registration failed
  */
+router.get('/register', authController.renderRegisterPage);
 router.post("/register", authController.register); // Register endpoint
 
 /**
