@@ -6,8 +6,8 @@ chai.use(chaiHttp);
 chai.should();
 describe('Event Deletion', () => {
     it('should delete an event with valid user id and event id', (done) => {
-        const userEmail = "mads@example.com";
-        const eventId = "674d9f083c3f7c42742ea2fc";
+        const userEmail = "john.doe@example.com";
+        const eventId = "674f182b2b64e36cddb6db3c";
         chai.request(server)
             .delete(`/events`)
             .send({
@@ -21,10 +21,10 @@ describe('Event Deletion', () => {
             });
     });
     it('should fail to delete an event with the given eventId', (done) => {
-        const userEmail = "noemail@example.com";
-        const eventId = "674d9f083c3f7c42742ea2fc";
+        const userEmail = "john.doe@example.com";
+        const eventId = "674f182b2b64e36cddb6db3c";
         chai.request(server)
-            .delete(`/event/${eventId}`)
+            .delete(`/events`)
             .send({id: eventId, email: '' })
             .end((err, res) => {
                 res.should.have.status(404);

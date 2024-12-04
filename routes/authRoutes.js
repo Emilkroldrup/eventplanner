@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
 const authMiddleware = require("../middleware/authMiddleware");
-const authenticateToken = require("../middleware/authMiddleware");
+const eventController = require("../controllers/eventController");
 /**
  * @swagger
  * tags:
@@ -108,24 +108,6 @@ router.post("/register", authController.register); // Register endpoint
  */
 router.post("/login", authController.login); // Login endpoint
 
-/**
- * @swagger
- * /protected:
- *   get:
- *     tags:
- *       - Auth
- *     summary: Protected route
- *     description: Returns a message for authenticated users.
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Access to protected route
- *       401:
- *         description: Access denied
- */
-router.get('/protected', authenticateToken, (req, res) => {
-    res.send('You have access to this protected route!');
-});
+router.get('/login', authController.renderLoginPage);
 
 module.exports = router;

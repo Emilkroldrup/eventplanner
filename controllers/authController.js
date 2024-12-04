@@ -63,3 +63,9 @@ exports.login = async (req, res) => {
         res.status(500).json({error: "Login failed"});
     }
 };
+
+exports.renderLoginPage = (req, res) => {
+    res.render('login', {
+        pageTitle: 'login',
+    });
+};

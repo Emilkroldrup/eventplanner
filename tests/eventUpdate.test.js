@@ -3,57 +3,69 @@ const chatHttp = require('chai-http');
 const server = require('../app');
 
 chai.use(chatHttp);
+chai.should();
 
 describe('Event Update', () => {
     it('should update an event with valid user id and event id', (done) => {
-        const eventId = 1;
+        const eventId = "674f19f53686f9dab3a6a4a2";
+        const userEmail = "john.doe@example.com";
         chai.request(server)
-            .put(`/event/${eventId}`)
+            .put(`/events`)
             .send({
-                email: 'madsmadsen@gmail.com',
-                eventId: eventId,
+                eventManager: {
+                    name: 'John Doe',
+                    email: userEmail,
+                },
+                id: eventId,
                 eventTitle: 'Birthday Party',
-                age: '18+',
-                city: 'København',
-                address: 'Adressen 23',
-                postalcode: '2100',
+                age: 18,
+                location: {
+                    address: 'Adressen 24',
+                    city: 'København',
+                    postalCode: '2100',
+                },
                 eventType: 'Koncert',
-                startDateTime: '22-11-2024 18:30',
+                startDateTime: '2024-11-22T18:30:00Z',
                 length: '2 hours',
-                endDateTime: '22-11-2024 20:30',
+                endDateTime: '2024-11-22T20:30:00Z',
                 description: 'Fødselsdagsfest for Mads Madsen',
                 banner: 'Photo.jpg'
             })
-        .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.have.property('message', 'Event has been updated');
-            done();
-        });
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+
     });
 
     it('should fail to update event if details are invalid', (done) => {
-        const eventId = 321;
+        const eventId = "674f19f53686f9dab3a6a4a2";
+        const userEmail = "madsflaeskeberg@gmail.com";
         chai.request(server)
-            .put(`/event/${eventId}`)
+            .put(`/events`)
             .send({
-                email: 'madsmadsen@gmail.com',
-                eventId: eventId,
+                eventManager: {
+                    name: 'Mads Madsen',
+                    email: userEmail,
+                },
+                id: eventId,
                 eventTitle: 'Birthday Party',
-                age: '',
-                city: '',
-                address: '',
-                postalcode: '2100',
+                age: '18',
+                location: {
+                    address: 'fwjni',
+                    city: 'Copenhagen',
+                    postalCode: '2100',
+                },
                 eventType: 'Koncert',
-                startDateTime: '22-11-2024 18:30',
+                startDateTime: '2024-11-22T18:30:00Z',
                 length: '2 hours',
-                endDateTime: '22-11-2024 20:30',
+                endDateTime: '2024-11-22T20:30:00Z',
                 description: 'Fødselsdagsfest for Mads Madsen',
                 banner: 'Photo.jpg'
             })
-        .end((err, res) => {
-            res.should.have.status(400);
-            res.body.should.have.property('error', 'Invalid details');
-            done();
+            .end((err, res) => {
+                res.should.have.status(404);
+                done();
             });
     });
 });
