@@ -23,11 +23,16 @@ exports.fetchEvents = async (query = "Koncerter i København") => {
         return events;
     } catch (error) {
         console.error('Error fetching events:', error);
-        throw error; 
+        throw error;
     }
 };
 
 
+exports.getEvents = asyncHandler(async (req, res) => {
+    const query = req.query.q || "Koncerter i København";
+    const events = await exports.fetchEvents(query); // Use the reusable function
+    res.render('partials/events', { events });
+});
 // Create an event
 exports.createEvent = asyncHandler(async (req, res) => {
     const newEvent = new eventModel(req.body);
