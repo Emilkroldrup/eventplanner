@@ -17,12 +17,16 @@ exports.createEvent = (req, res) => {
   res.send('Event created successfully!');
 };
 
-// Get all events
-exports.getEvents = asyncHandler(async(req, res) => {
-    const query = req.query.q || "Koncerter i København";
-        const events = await fetchEventsFromAPI (query);
-        res.render('partials/events', { events });
-});
+exports.fetchEvents = async (query = "Koncerter i København") => {
+    try {
+        const events = await fetchEventsFromAPI(query);
+        return events;
+    } catch (error) {
+        console.error('Error fetching events:', error);
+        throw error; 
+    }
+};
+
 
 // Create an event
 exports.createEvent = asyncHandler(async (req, res) => {
