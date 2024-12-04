@@ -1,15 +1,20 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../app');
+const { app, server} = require('../app');
 const should = chai.should();
 
 
 chai.use(chaiHttp);
 
 describe('User login', () => {
+    after((done) => {
+        server.close();
+        done();
+    });
+
     it('should login succesfully with valid credentials', (done) => {
-        chai.request(server)
-            .post('/login')
+        chai.request(app)
+            .post('/auth/login')
             .send({email: 'testuser', password: 'password123'})
             .end((err, res) => {
                 res.should.have.status(200);
@@ -19,8 +24,8 @@ describe('User login', () => {
     });
 
     it('should fail to login with invalid credentials', (done) => {
-        chai.request(server)
-            .post('/login')
+        chai.request(app)
+            .post('/auth/login')
             .send({email: 'testuser', password: 'wrongpassword'})
             .end((err, res) => {
                 res.should.have.status(401);
