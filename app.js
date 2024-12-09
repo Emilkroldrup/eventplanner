@@ -53,7 +53,6 @@ const server = createServer(app);
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/events', eventRoutes);
 app.use('/', homeRoutes);
 app.use('/events', eventsRoutes);
 app.use('/user', userRoutes);

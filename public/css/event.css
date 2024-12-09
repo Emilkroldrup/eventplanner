@@ -3,6 +3,14 @@
     padding: 0 20px;
     text-align: center;
   }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  line-height: 1.6;
+}
 
   .events-section h2 {
     font-size: 24px;
@@ -17,6 +25,11 @@
     justify-content: center;
     gap: 10px;
   }
+
+header {
+  background-color: #2b293d;
+  box-sizing: border-box;
+}
 
   .filter-buttons button {
     background-color: #fff;
