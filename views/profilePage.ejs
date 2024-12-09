@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Page</title>
+    <link rel ="stylesheet" href="/css/profilePage.css">
+</head>
+<body>
+<%- include('partials/header') %>
+    <h1>User Profile</h1>
+    <div id="profile-top">
+        <img src="/images/<%= user.id %>.png" onerror="this.onerror=null; this.src='/images/default-profile.jpg';" id="profile-picture">
+        <div id="text-container">
+            <p id="name"><%= user.firstName %> <%= user.lastName %></p></p>
+            <p id="timezone">Central European Time, Copenhagen (GMT+1)</p>
+        </div>
+        <div id="button-container">
+            <button id="picture-upload">Upload New Photo</button>
+            <button id="delete-profile">Delete</button>
+        </div>
+    </div>
+
+    <div id="profile-name">
+        <div class="input-field">
+            <p>First Name</p>
+            <input type="text" id="firstname" placeholder="e.g. Emil">
+        </div>
+
+        <div class="input-field">
+            <p>Last Name</p>
+            <input type="text" id="lastname" placeholder="e.g. Larsen">
+        </div>
+    </div>
+
+    <div id="profile-information">
+        <div class="input-field">
+            <p>Email Address</p>
+            <input type="text" id="email" placeholder="<%= user.email %>">
+        </div>
+
+        <div class="input-field">
+            <p>Phone Number</p>
+            <input type="text" id="phoneNumber" placeholder="<%= user.phoneNumber %>">
+        </div>
+    </div>
+
+    <div id="events">
+        <p>Events</p>
+        <div class="event">
+            <div class="icon">
+                <img src="images/notification.png">
+            </div>
+            <p>Emils Fødselsdag</p>
+            <p>27-11-2024</p>
+        </div>
+
+    <div id="location">
+        <div class="input-field">
+            <p>Location</p>
+            <input type="text" id="loc">
+        </div>
+
+        <div class="input-field">
+            <p>Timezone</p>
+            <input type="text" id="time-zone">
+        </div>
+    </div>
+
+    <div id="passwords">
+        <div id="c-n-password">
+            <div class="input-field">
+                <p>Current Password</p>
+                <input type="password" id="current-password">
+            </div>
+
+            <div class="input-field">
+                <p>New Password</p>
+                <input type="password" id="new-password">
+            </div>
+        </div>
+
+        <div class="input-field">
+            <p>Confirm New Password</p>
+            <input type="password" id="confirm-new-password">
+        </div>
+    </div>
+
+    <div id="confirm-buttons">
+        <button id="cancel">Cancel</button>
+        <button>Save Changes</button>
+    </div>
+
+    <div id="footer-container">
+        <%- include('partials/footer') %>
+    </div>
+</body>
+</html>

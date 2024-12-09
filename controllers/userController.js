@@ -1,8 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const userModel = require('../models/User');
-const eventModel = require('../models/Event')
-
-
+const eventModel = require('../models/Event');
 
 exports.getUser = asyncHandler(async (req, res) => {
     const email = req.query.email;
@@ -11,8 +9,7 @@ exports.getUser = asyncHandler(async (req, res) => {
     if (!user) {
         return res.status(404).json({ message: 'User not found' });
     }
-    return res.status(200).json({ user });
-
+    return res.status(200).json( { user } );
 });
 
 exports.createUser = asyncHandler(async (req, res) => {

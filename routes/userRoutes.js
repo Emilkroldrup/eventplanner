@@ -174,5 +174,4 @@ router.delete('/deleteuser', userController.deleteUser);
 
 router.put('/updateuser', userController.updateUser);
 
-
 module.exports = router;

@@ -42,7 +42,6 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
-
         const user = await userModel.findOne({ email });
         if (!user) {
             console.log('User not found');
@@ -57,8 +56,8 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ email: user.email, id: user._id }, secretKey, { expiresIn: '1h' });
         console.log('Generated Token:', token);
 
-
-        res.redirect('/events');
+        res.cookie('authToken', token, { httpOnly: true, secure: process.env.JWT_SECRET });
+        res.redirect('/');
     } catch (error) {
         console.error('Login failed:', error);
         res.redirect('/login?error=Login failed');

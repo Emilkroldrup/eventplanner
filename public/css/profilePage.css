@@ -1,0 +1,201 @@
+body{
+    font-family: Arial, sans-serif;
+    color: #565357;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    box-sizing: border-box;
+}
+
+#footer-container {
+    margin-top: 30px;
+}
+
+h1{
+    font-size: 100%;
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-decoration-color: rgba(147,143,148,0.3);
+    padding-bottom: 25px;
+    text-align: center;
+}
+
+#profile-picture{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    margin-right: 20px;
+    margin-left: 60px;
+}
+
+#profile-top p#name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#profile-top p#timezone {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+#profile-top {
+    display: flex;
+    align-items: center;
+}
+
+#profile-name, #profile-information, #profile-top, #events, #location, #passwords {
+    border-bottom: 3px solid rgba(147,143,148,0.3);
+    padding-bottom: 30px;
+}
+
+button {
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: white;
+    background-color: rgb(64, 76, 108);
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+}
+
+#delete-profile, #cancel {
+    color: black;
+    background-color: white;
+}
+
+button:hover {
+    background-color: rgb(80, 95, 125);
+    transform: translateY(-2px);
+}
+
+#button-container {
+    margin-left: auto;
+}
+
+#profile-name, #profile-information {
+    display: flex;
+    gap: 20px;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.input-field p, #events p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.input-field input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.input-field input:focus {
+    outline: none;
+    border-color: #64a9e6;
+    box-shadow: 0 0 5px rgba(100, 169, 230, 0.5);
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #888;
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+.icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0) invert(1);
+}
+
+.event {
+    display: flex;
+    align-items: center;
+}
+
+.event p{
+    font-size: 16px;
+}
+
+.event p:first-of-type {
+    border-right: 3px solid #888;
+    padding-right: 50%;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.event p:last-of-type {
+    padding-left: 30px;
+    text-align: right;
+}
+
+#profile-information input, #location input, #passwords input {
+    padding: 10px 10px 10px 40px;
+    border: 1px solid #ccc;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+#email {
+    background-image: url("/images/letter.png");
+}
+
+#phoneNumber {
+    background-image: url("/images/phone.png");
+}
+
+#location .input-field {
+    width: 100%;
+}
+
+#loc {
+    background-image: url("/images/location.png");
+}
+
+#time-zone {
+    background-image: url("/images/clock.png");
+}
+
+#passwords input {
+    background-image: url("/images/key.png");
+}
+
+#c-n-password {
+    display: flex;
+    gap: 20px;
+}
+
+#passwords .input-field {
+    width: 100%;
+}
+
+#confirm-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
