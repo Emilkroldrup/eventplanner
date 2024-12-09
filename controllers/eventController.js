@@ -10,13 +10,6 @@ exports.renderCreateEventPage = (req, res) => {
   });
 };
 
-// Handle form submission // TODO skal bygges senere!
-exports.createEvent = (req, res) => {
-  const { title, city, address, eventType, startDate, duration, description, ageRestriction } = req.body;
-  console.log('Event Data:', { title, city, address, eventType, startDate, duration, description, ageRestriction });
-  res.send('Event created successfully!');
-};
-
 exports.fetchEvents = async (query = "Koncerter i København") => {
     try {
         const events = await fetchEventsFromAPI(query);
@@ -33,16 +26,18 @@ exports.getEvents = asyncHandler(async (req, res) => {
     const events = await exports.fetchEvents(query); // Use the reusable function
     res.render('partials/events', { events });
 });
+
 // Create an event
 exports.createEvent = asyncHandler(async (req, res) => {
     const newEvent = new eventModel(req.body);
     const user = await userModel.findOne({ email: req.body.eventManager.email });
-    if(!user) {
+    if (!user) {
         return res.status(404).json({ message: 'User not found' });
     }
     await newEvent.save();
     return res.status(201).json({ message: 'Event has been created', newEvent });
 });
+
 
 // Update an event
 exports.updateEvent = asyncHandler (async (req,res) => {
