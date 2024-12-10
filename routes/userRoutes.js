@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const upload = require('../middleware/uploadMiddleware');
 /**
  * @swagger
  * tags:
@@ -173,5 +174,9 @@ router.delete('/deleteuser', userController.deleteUser);
  */
 
 router.put('/updateuser', userController.updateUser);
+
+
+router.post('/upload', upload.single('profilePicture'), userController.uploadProfilePicture);
+
 
 module.exports = router;

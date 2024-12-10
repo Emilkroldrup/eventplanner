@@ -46,6 +46,15 @@ exports.deleteUser = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: 'User and their events have been deleted' })
 });
 
+exports.uploadProfilePicture = asyncHandler(async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+    res.status(200).json({ message: 'Profile picture uploaded successfully',  filename: req.file.filename });
+});
+
+
+
 
 
 
