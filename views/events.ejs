@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/css/event.css">
 </head>
 <body>
-<%- include('../partials/header') %>
+<%- include('../views/partials/header') %>
 <section class="events-section">
   <h2>Popular Events</h2>
   <div class="filter-buttons">
@@ -41,7 +41,7 @@
 
   <button class="see-more">See More</button>
 </section>
-<%- include('../partials/footer') %>
+<%- include('../views/partials/footer') %>
 <script>
   let currentPage = 1;
   const eventsContainer = document.querySelector('.events-container');

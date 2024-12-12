@@ -24,7 +24,7 @@ exports.fetchEvents = async (query = "Koncerter i København") => {
 exports.getEvents = asyncHandler(async (req, res) => {
     const query = req.query.q || "Koncerter i København";
     const events = await exports.fetchEvents(query); // Use the reusable function
-    res.render('partials/events', { events });
+    res.render('../views/events', { events });
 });
 
 // Create an event
