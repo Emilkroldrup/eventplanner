@@ -14,8 +14,13 @@ exports.fetchEventsFromAPI = asyncHandler(async (query) => {
 
     try {
         const apiResponse = await axios.get(url, { params });
+
+        // Log the raw API response to inspect the available fields
+        console.log("Raw API Response:", JSON.stringify(apiResponse.data, null, 2));
+
         const apiEvents = apiResponse.data.events_results || [];
         const dbEvents = await eventModel.find();
+
         const combinedEvents = [
             ...dbEvents.map(event => ({
                 title: event.eventTitle,
@@ -28,17 +33,21 @@ exports.fetchEventsFromAPI = asyncHandler(async (query) => {
             })),
             ...apiEvents.map(apiEvent => ({
                 title: apiEvent.title,
-                categories: apiEvent.categories || 'Uncategorized',
-                date: apiEvent.date,
-                location: apiEvent.location || 'Location not specified',
-                description: apiEvent.description || '',
-                image: apiEvent.image || '/images/defaultEvent.png',
+                categories: apiEvent.event_type?.includes('Virtual-Event')
+                    ? 'Virtual'
+                    : 'In-Person',
+                date: apiEvent.date?.when || 'Date not specified',
+                location: apiEvent.address || 'Location not specified',
+                description: apiEvent.description || 'No description available',
+                image: apiEvent.thumbnail || '/images/defaultEvent.png',
                 link: apiEvent.link || '#',
             }))
         ];
+
         return combinedEvents;
     } catch (error) {
         console.error("Error fetching events:", error);
         throw new Error("Failed to fetch events from API or database.");
     }
 });
+
