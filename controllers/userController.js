@@ -45,8 +45,3 @@ exports.deleteUser = asyncHandler(async (req, res) => {
     await userModel.deleteOne({ email });
     return res.status(200).json({ message: 'User and their events have been deleted' })
 });
-
-
-
-
-
