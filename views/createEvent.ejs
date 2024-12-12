@@ -14,81 +14,110 @@
     <div class="create-event-container">
       <h1>Create Event</h1>
       <form action="/events/create" method="POST" class="event-form">
+
         <!-- Event Title -->
         <div class="form-group">
           <label for="eventTitle">Event Title</label>
-          <input type="text" id="eventTitle" name="title" placeholder="Enter event title" required>
+          <input type="text" id="eventTitle" name="eventTitle" placeholder="Enter event title" required>
         </div>
 
-        <!-- Host -->
+       <!-- Host -->
         <div class="form-group">
           <label for="host">Host</label>
-          <input type="text" id="host" name="host" value="Logged in user" readonly>
+          <input type="text" id="host" name="eventManager[name]" value="<%= user.firstName %> <%= user.lastName %>" readonly required>
+          <input type="hidden" name="eventManager[email]" value="<%= user.email %>">
         </div>
+
 
         <!-- Age Restriction -->
         <div class="form-group">
-          <label for="ageRestriction">Age Restriction</label>
-          <select id="ageRestriction" name="ageRestriction">
-            <option value="none">None</option>
-            <option value="18+">18+</option>
-            <option value="21+">21+</option>
-          </select>
-        </div>
-
-        <!-- City -->
-        <div class="form-group">
-          <label for="city">City</label>
-          <input type="text" id="city" name="city" placeholder="Enter city" required>
-        </div>
-
-        <!-- Address -->
-        <div class="form-group">
-          <label for="address">Address</label>
-          <input type="text" id="address" name="address" placeholder="Enter address" required>
+          <label for="age">Age Restriction</label>
+          <input type="number" id="age" name="age" placeholder="Enter minimum age" required>
         </div>
 
         <!-- Event Type -->
         <div class="form-group">
           <label for="eventType">Event Type</label>
-          <select id="eventType" name="eventType">
+          <select id="eventType" name="eventType" required>
+            <option value="">Select an Event Type</option>
             <option value="party">Party</option>
             <option value="conference">Conference</option>
             <option value="wedding">Wedding</option>
           </select>
         </div>
 
-        <!-- Start Date -->
+        <!-- City -->
         <div class="form-group">
-          <label for="startDate">Start Date</label>
-          <input type="date" id="startDate" name="startDate" required>
+          <label for="city">City</label>
+          <input type="text" id="city" name="location[city]" placeholder="Enter city" required>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" id="address" name="location[address]" placeholder="Enter address" required>
+        </div>
+
+        <!-- Start Date and Time -->
+        <div class="form-group">
+          <label for="startDateTime">Start Date and Time</label>
+          <input type="datetime-local" id="startDateTime" name="startDateTime" required>
         </div>
 
         <!-- Duration -->
         <div class="form-group">
           <label for="duration">Duration (hours)</label>
-          <input type="number" id="duration" name="duration" placeholder="Enter duration" required>
+          <input type="number" id="duration" name="duration" placeholder="Enter duration in hours" required>
+        </div>
+
+        <!-- End Date and Time (Automatically Calculated) -->
+        <div class="form-group">
+          <label for="endDateTime">End Date and Time</label>
+          <input type="datetime-local" id="endDateTime" name="endDateTime" readonly>
         </div>
 
         <!-- Description -->
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea id="description" name="description" rows="4" placeholder="Enter event description"></textarea>
-        </div>
-
-        <!-- Banner Upload -->
-        <div class="form-group">
-          <label for="banner">Event Banner</label>
-          <input type="file" id="banner" name="banner" accept="image/*">
+          <textarea id="description" name="description" rows="4" placeholder="Enter event description" required></textarea>
         </div>
 
         <!-- Submit Button -->
         <button type="submit" class="submit-button">Create Event</button>
+
+        <!-- Upload event image -->
+        <div class="form-group">
+          <label for="event-image">Event Image</label>
+          <button type="button" id="event-image-upload">Upload Image</button>
+          <input type="file" id="event-image" name="event-image" accept="image/*">
+        </div>
       </form>
     </div>
   </main>
 
   <!-- Include Footer -->
   <%- include('partials/footer') %>
+
+  <!-- Script to Calculate End Date and Time -->
+  <script>
+    document.getElementById('startDateTime').addEventListener('change', updateEndDateTime);
+    document.getElementById('duration').addEventListener('input', updateEndDateTime);
+
+    function updateEndDateTime() {
+      const startDateTime = document.getElementById('startDateTime').value;
+      const duration = parseInt(document.getElementById('duration').value);
+
+      if (startDateTime && duration) {
+        const startDate = new Date(startDateTime);
+        startDate.setHours(startDate.getHours() + duration);
+
+        // Format the date to match input[datetime-local]
+        const formattedEndDateTime = startDate.toISOString().slice(0, 16);
+        document.getElementById('endDateTime').value = formattedEndDateTime;
+      } else {
+        document.getElementById('endDateTime').value = '';
+      }
+    }
+  </script>
 </body>
 </html>

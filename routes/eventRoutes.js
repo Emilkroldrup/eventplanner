@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const eventController = require('../controllers/eventController');
-const authController = require("../controllers/eventController");
+const upload = require("../middleware/uploadMiddleware");
+
 /**
  * @swagger
  * tags:
@@ -187,5 +188,7 @@ router.put('/', eventController.updateEvent);
  *         description: Internal server error
  */
 router.delete('/', eventController.deleteEvent);
+
+router.post('/upload', upload.single('eventImage'), eventController.uploadEventImage);
 
 module.exports = router;

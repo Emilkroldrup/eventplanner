@@ -11,14 +11,20 @@
     <div id="profile-top">
         <img src="/images/<%= user.id %>.png" onerror="this.onerror=null; this.src='/images/default-profile.jpg';" id="profile-picture">
         <div id="text-container">
-            <p id="name"><%= user.firstName %> <%= user.lastName %></p></p>
+            <p id="name"><%= user.firstName %> <%= user.lastName %></p>
             <p id="timezone">Central European Time, Copenhagen (GMT+1)</p>
         </div>
         <div id="button-container">
-            <button id="picture-upload">Upload New Photo</button>
-            <button id="delete-profile">Delete</button>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="fileInput" name="profilePicture" accept="image/*" hidden>
+                <input type="hidden" name="userId" value="<%= user.id %>">
+                <button type="button" id="picture-upload">Upload Profile Picture</button>
+            </form>
+            <button id="delete-profile">Delete Profile</button>
         </div>
     </div>
+
+    <script src="/js/profileImage.js"></script>
 
     <div id="profile-name">
         <div class="input-field">
@@ -92,6 +98,7 @@
 
     <div id="footer-container">
         <%- include('partials/footer') %>
+        </div>
     </div>
 </body>
 </html>
