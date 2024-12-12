@@ -22,7 +22,7 @@
       <% events.forEach(event => { %>
         <div class="event-card">
           <img
-                  src="<%= event.image || '/images/defaultEvent.png' %>"
+                  src="/images/<%= event.id %>.png" onerror="this.onerror=null; this.src='/images/defaultEvent.png';" id="event-image"
                   alt="<%= event.title || 'Event' %>"
           />
           <div class="event-details">
