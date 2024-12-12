@@ -15,8 +15,6 @@ exports.fetchEventsFromAPI = asyncHandler(async (query) => {
     try {
         const apiResponse = await axios.get(url, { params });
 
-        // Log the raw API response to inspect the available fields
-        console.log("Raw API Response:", JSON.stringify(apiResponse.data, null, 2));
 
         const apiEvents = apiResponse.data.events_results || [];
         const dbEvents = await eventModel.find();
@@ -51,3 +49,13 @@ exports.fetchEventsFromAPI = asyncHandler(async (query) => {
     }
 });
 
+exports.getPaginatedEvents = asyncHandler(async (req, res) => {
+    const query = req.query.q || "events";
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+
+    const allEvents = await fetchEventsFromAPI(query);
+    const paginatedEvents = allEvents.slice((page - 1) * limit, page * limit);
+
+    res.json({ events: paginatedEvents });
+});
