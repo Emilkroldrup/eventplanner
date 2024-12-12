@@ -39,7 +39,7 @@ exports.fetchEventsFromAPI = asyncHandler(async (query) => {
                 date: apiEvent.date?.when || 'Date not specified',
                 location: apiEvent.address || 'Location not specified',
                 description: apiEvent.description || 'No description available',
-                image: apiEvent.thumbnail || '/images/defaultEvent.png',
+                image: apiEvent.image || '/images/defaultEvent.png',
                 link: apiEvent.link || '#',
             }))
         ];
