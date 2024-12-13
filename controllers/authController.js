@@ -31,7 +31,7 @@ exports.register = async (req, res) => {
         const newUser = new userModel(user);
         await newUser.save();
 
-        res.redirect('/events');
+        res.redirect('/');
     } catch (error) {
         console.error('Registration failed, Email must be Unique', error);
         res.redirect('/register?error=Invalid credentials');
