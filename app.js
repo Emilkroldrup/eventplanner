@@ -55,11 +55,10 @@ const server = createServer(app);
 app.use('/auth', authRoutes);
 app.use('/events', eventRoutes);
 app.use('/', homeRoutes);
-app.use('/events', eventsRoutes);
 app.use('/user', userRoutes);
 const PORT = process.env.PORT || 3000;
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-module.exports = {app, server};
+module.exports = app
