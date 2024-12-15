@@ -13,9 +13,10 @@
   <main>
     <div class="create-event-container">
       <h1>Create Event</h1>
-      <form action="/events/create" method="POST" class="event-form">
+      <form action="/events/create" method="POST" class="event-form" enctype="multipart/form-data">
 
-        <!-- Event Title -->
+
+      <!-- Event Title -->
         <div class="form-group">
           <label for="eventTitle">Event Title</label>
           <input type="text" id="eventTitle" name="eventTitle" placeholder="Enter event title" required>

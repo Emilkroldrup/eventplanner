@@ -1,5 +1,7 @@
 const { fetchEventsFromAPI } = require('../models/EventsModel');
 const asyncHandler = require('express-async-handler');
+const multer = require('multer');
+const path = require('path');
 const eventModel = require('../models/Event');
 const userModel = require('../models/User');
 
@@ -27,21 +29,47 @@ exports.getEvents = asyncHandler(async (req, res) => {
     res.render('../views/partials/eventsForHome', { events });
 });
 
-// Create an event
-exports.createEvent = asyncHandler(async (req, res) => {
-    const newEvent = new eventModel(req.body);
-    const user = await userModel.findOne({ email: req.body.eventManager.email });
 
-    if (!user) {
-        return res.status(404).render('errorPage', { message: 'User not found' });
-    }
-
-    await newEvent.save();
-
-    return res.redirect('/');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/uploads/'); // Folder where images are stored
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`); // Unique filename
+    },
 });
 
+const upload = multer({ storage });
 
+exports.createEvent = [
+    upload.single('event-image'), // Add multer middleware to handle image upload
+    asyncHandler(async (req, res) => {
+        // Check if the user exists
+        const user = await userModel.findOne({ email: req.body.eventManager.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Get the image path
+        const imagePath = req.file ? `/uploads/${req.file.filename}` : '/images/defaultEvent.png'; // Use default image if no file uploaded
+
+        // Create the event object
+        const newEvent = new eventModel({
+            ...req.body,
+            image: imagePath, // Store the uploaded image path or default image
+        });
+
+        try {
+            // Save the event to the database
+            await newEvent.save();
+            res.redirect('/'); // Redirect to the home page after successful event creation
+        } catch (error) {
+            console.error('Error creating event:', error);
+            res.status(500).json({ message: 'Failed to create event' });
+        }
+    }),
+];
 // Update an event
 exports.updateEvent = asyncHandler (async (req,res) => {
     const { id, ...updateFields } = req.body;

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const eventSchema = new Schema( {
+const eventSchema = new Schema({
     eventTitle: { type: String, required: true },
     eventType: { type: String, required: true },
     age: { type: Number, required: true },
@@ -16,7 +16,8 @@ const eventSchema = new Schema( {
         name: { type: String },
         email: { type: String },
     },
-    description: { type: String, required: true }
+    description: { type: String, required: true },
+    image: { type: String, default: '/images/defaultEvent.png' }  // Add this line
 });
 
 const Event = mongoose.model('Event', eventSchema);

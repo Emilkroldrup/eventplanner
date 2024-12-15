@@ -20,10 +20,8 @@
     <% if (events && events.length > 0) { %>
       <% events.forEach(event => { %>
         <div class="event-card">
-          <img
-                  src="<%= event.image || '/images/defaultEvent.png' %>"
-                  alt="<%= event.title || 'Event' %>"
-          />
+          <img src="<%= event.image %>" alt="<%= event.title || 'Event' %>" />
+
           <div class="event-details">
             <span class="event-category"><%= event.categories || 'Uncategorized' %></span>
             <h3><%= event.title %></h3>
@@ -57,16 +55,15 @@
           eventCard.classList.add('event-card');
 
           eventCard.innerHTML = `
-            <img src="${event.image || '/images/defaultEvent.png'}" alt="${event.title || 'Event'}" />
-            <div class="event-details">
-              <span class="event-category">${event.categories || 'Uncategorized'}</span>
-              <h3>${event.title}</h3>
-              <p>${event.date || 'Date not specified'}</p>
-              <p>${event.location || 'Location not specified'}</p>
-              <a href="${event.link || '#'}">Læs mere</a>
-            </div>
-          `;
-
+  <img src="${event.image || '/images/defaultEvent.png'}" alt="${event.title || 'Event'}" />
+  <div class="event-details">
+    <span class="event-category">${event.categories || 'Uncategorized'}</span>
+    <h3>${event.title}</h3>
+    <p>${event.date || 'Date not specified'}</p>
+    <p>${event.location || 'Location not specified'}</p>
+    <a href="${event.link || '#'}">Læs mere</a>
+  </div>
+`;
           eventsContainer.appendChild(eventCard);
         });
       } else {
