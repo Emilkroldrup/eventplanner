@@ -10,22 +10,23 @@
 <section class="events-section">
   <h2>Popular Events</h2>
   <div class="filter-buttons">
-    <button>All</button>
-    <button>Today</button>
-    <button>Tomorrow</button>
-    <button>This Weekend</button>
-    <button>Free</button>
+    <button class="filter-btn" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="today">Today</button>
+    <button class="filter-btn" data-filter="week">This Week</button>
+    <button class="filter-btn" data-filter="month">This Month</button>
+    <button class="filter-btn" data-filter="year">This Year</button>
   </div>
   <div class="events-container">
     <% if (events && events.length > 0) { %>
       <% events.forEach(event => { %>
-        <div class="event-card">
+        <div class="event-card"
+             data-event-date-start="<%= event.date.start %>"
+             data-event-date-end="<%= event.date.end %>">
           <img src="<%= event.image %>" alt="<%= event.title || 'Event' %>" />
-
           <div class="event-details">
             <span class="event-category"><%= event.categories || 'Uncategorized' %></span>
             <h3><%= event.title %></h3>
-            <p><%= event.date || 'Date not specified' %></p>
+            <p><%= event.date.start.toLocaleDateString() || 'Date not specified' %></p>
             <p><%= event.location || 'Location not specified' %></p>
             <a href="<%= event.link || '#' %>">Læs mere</a>
           </div>
@@ -38,11 +39,98 @@
 
   <button class="see-more">See More</button>
 </section>
+
 <script>
-  let currentPage = 1;
   const eventsContainer = document.querySelector('.events-container');
+  const filterButtons = document.querySelectorAll('.filter-btn');
   const seeMoreButton = document.querySelector('.see-more');
 
+  let currentPage = 1;
+
+  // Format dates (you might need to adjust this based on the format of the event dates)
+  const formatDate = (dateString) => new Date(dateString);
+  const getTodayDate = () => new Date().setHours(0, 0, 0, 0);
+
+  const getStartOfWeek = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day; // Get the start of the week (Sunday)
+    today.setDate(diff);
+    today.setHours(0, 0, 0, 0);
+    return today;
+  };
+
+  const getEndOfWeek = () => {
+    const startOfWeek = getStartOfWeek();
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week (Saturday)
+    endOfWeek.setHours(23, 59, 59, 999);
+    return endOfWeek;
+  };
+
+  const getStartOfMonth = () => {
+    const today = new Date();
+    today.setDate(1); // Set to the first day of the month
+    today.setHours(0, 0, 0, 0);
+    return today;
+  };
+
+  const getStartOfYear = () => {
+    const today = new Date();
+    today.setMonth(0); // January
+    today.setDate(1); // First day of the year
+    today.setHours(0, 0, 0, 0);
+    return today;
+  };
+
+  // Function to filter events based on the selected filter
+  const filterEvents = (filter) => {
+    const eventCards = document.querySelectorAll('.event-card');
+    const todayDate = getTodayDate();
+    const startOfWeek = getStartOfWeek();
+    const endOfWeek = getEndOfWeek();
+    const startOfMonth = getStartOfMonth();
+    const startOfYear = getStartOfYear();
+
+    eventCards.forEach(card => {
+      const eventStartDate = new Date(card.getAttribute('data-event-date-start')).setHours(0, 0, 0, 0);
+      let shouldShow = false;
+
+      switch (filter) {
+        case 'all':
+          shouldShow = true;
+          break;
+        case 'today':
+          shouldShow = eventStartDate === todayDate;
+          break;
+        case 'week':
+          shouldShow = eventStartDate >= startOfWeek && eventStartDate <= endOfWeek;
+          break;
+        case 'month':
+          shouldShow = eventStartDate >= startOfMonth && eventStartDate < startOfMonth.setMonth(startOfMonth.getMonth() + 1);
+          break;
+        case 'year':
+          shouldShow = eventStartDate >= startOfYear;
+          break;
+        default:
+          shouldShow = true;
+          break;
+      }
+
+      // Show or hide the card based on the filter
+      card.style.display = shouldShow ? 'block' : 'none';
+    });
+  };
+
+  // Add event listeners to filter buttons
+  filterButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const filter = e.target.getAttribute('data-filter');
+      filterEvents(filter);
+    });
+  });
+
+  // Load more events on the "See More" button click
   seeMoreButton.addEventListener('click', async () => {
     currentPage++;
     try {
@@ -53,17 +141,19 @@
         data.events.forEach(event => {
           const eventCard = document.createElement('div');
           eventCard.classList.add('event-card');
+          eventCard.setAttribute('data-event-date-start', event.date.start);
+          eventCard.setAttribute('data-event-date-end', event.date.end);
 
           eventCard.innerHTML = `
-  <img src="${event.image || '/images/defaultEvent.png'}" alt="${event.title || 'Event'}" />
-  <div class="event-details">
-    <span class="event-category">${event.categories || 'Uncategorized'}</span>
-    <h3>${event.title}</h3>
-    <p>${event.date || 'Date not specified'}</p>
-    <p>${event.location || 'Location not specified'}</p>
-    <a href="${event.link || '#'}">Læs mere</a>
-  </div>
-`;
+            <img src="${event.image || '/images/defaultEvent.png'}" alt="${event.title || 'Event'}" />
+            <div class="event-details">
+              <span class="event-category">${event.categories || 'Uncategorized'}</span>
+              <h3>${event.title}</h3>
+              <p>${new Date(event.date.start).toLocaleDateString() || 'Date not specified'}</p>
+              <p>${event.location || 'Location not specified'}</p>
+              <a href="${event.link || '#'}">Læs mere</a>
+            </div>
+          `;
           eventsContainer.appendChild(eventCard);
         });
       } else {

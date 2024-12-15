@@ -23,7 +23,10 @@ exports.fetchEventsFromAPI = asyncHandler(async (query) => {
             ...dbEvents.map(event => ({
                 title: event.eventTitle,
                 categories: event.eventType,
-                date: `${event.startDateTime.toLocaleDateString()} - ${event.endDateTime.toLocaleDateString()}`,
+                date: {
+                    start: event.startDateTime,
+                    end: event.endDateTime
+                },
                 location: `${event.location?.address || ''}, ${event.location?.city || ''}`,
                 description: event.description,
                 image: event.image || '/images/defaultEvent.png',
@@ -31,10 +34,11 @@ exports.fetchEventsFromAPI = asyncHandler(async (query) => {
             })),
             ...apiEvents.map(apiEvent => ({
                 title: apiEvent.title,
-                categories: apiEvent.event_type?.includes('Virtual-Event')
-                    ? 'Virtual'
-                    : 'In-Person',
-                date: apiEvent.date?.when || 'Date not specified',
+                categories: apiEvent.event_type?.includes('Virtual-Event') ? 'Virtual' : 'In-Person',
+                date: {
+                    start: new Date(apiEvent.date?.when),  // Ensure we are using valid Date objects
+                    end: new Date(apiEvent.date?.when)  // You can modify this to have start and end dates
+                },
                 location: apiEvent.address || 'Location not specified',
                 description: apiEvent.description || 'No description available',
                 image: apiEvent.image || '/images/defaultEvent.png',
