@@ -31,11 +31,14 @@ exports.getEvents = asyncHandler(async (req, res) => {
 exports.createEvent = asyncHandler(async (req, res) => {
     const newEvent = new eventModel(req.body);
     const user = await userModel.findOne({ email: req.body.eventManager.email });
+
     if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).render('errorPage', { message: 'User not found' });
     }
+
     await newEvent.save();
-    return res.status(201).json({ message: 'Event has been created', newEvent });
+
+    return res.redirect('/');
 });
 
 
