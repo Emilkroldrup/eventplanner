@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
         }
     },
     filename: (req, file, cb) => {
-        const userId = req.query.userId || req.headers['x-user-id'];
+        const userId = req.user?.id; // Use `req.user.id` populated by `authenticateToken`
         if (!userId) {
             return cb(new Error('User ID is missing'));
         }
