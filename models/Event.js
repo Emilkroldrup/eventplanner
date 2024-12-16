@@ -17,6 +17,7 @@ const eventSchema = new Schema( {
         email: { type: String },
     },
     description: { type: String, required: true },
+    image: { type: String, default: '/images/defaultEvent.png' },
     participants: [
         {
             name: { type: String, required: true },

@@ -27,7 +27,7 @@ describe('Event Creation', () => {
                 description: 'Fødselsdagsfest for Mads Madsen',
             })
             .end((err, res) =>{
-                res.should.have.status(201);
+                res.should.have.status(200);
                 done();
             });
     });

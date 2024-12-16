@@ -26,6 +26,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Server static filer
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 
 // Global authentication middleware
 app.use((req, res, next) => {
@@ -55,11 +57,10 @@ const server = createServer(app);
 app.use('/auth', authRoutes);
 app.use('/events', eventRoutes);
 app.use('/', homeRoutes);
-app.use('/events', eventsRoutes);
 app.use('/user', userRoutes);
 const PORT = process.env.PORT || 3000;
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-module.exports = {app, server};
+module.exports = app
