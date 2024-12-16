@@ -16,7 +16,13 @@ const eventSchema = new Schema( {
         name: { type: String },
         email: { type: String },
     },
-    description: { type: String, required: true }
+    description: { type: String, required: true },
+    participants: [
+        {
+            name: { type: String, required: true },
+            email: { type: String, required: true },
+        }
+        ]
 });
 
 const Event = mongoose.model('Event', eventSchema);

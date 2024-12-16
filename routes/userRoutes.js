@@ -178,5 +178,9 @@ router.put('/updateuser', userController.updateUser);
 
 router.post('/upload', upload.single('profilePicture'), userController.uploadProfilePicture);
 
+router.put('/participant', userController.participation)
+
+router.get('/getEvents', userController.getUsersEvents);
+
 
 module.exports = router;

@@ -50,17 +50,14 @@
         </div>
     </div>
 
-    <div id="events">
-        <p>Events</p>
-        <div class="event">
-            <div class="icon">
-                <img src="images/notification.png">
-            </div>
-            <p>Emils Fødselsdag</p>
-            <p>27-11-2024</p>
-        </div>
+<div id="events">
+    <p>Events</p>
+    <div id="events-container">
 
-    <div id="location">
+    </div>
+</div>
+
+<div id="location">
         <div class="input-field">
             <p>Location</p>
             <input type="text" id="loc">
@@ -100,5 +97,79 @@
         <%- include('partials/footer') %>
         </div>
     </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const email = '<%= user.email %>';
+        fetchEvents();
+
+        document.getElementById("events-container").addEventListener("click", (event) => {
+            if (event.target && event.target.classList.contains("unparticipate-btn")) {
+                const eventId = event.target.getAttribute("data-event-id");
+                console.log(`Unparticipating from event: ${eventId}`);
+                unparticipate(email, eventId);
+            }
+        });
+    });
+
+    function fetchEvents() {
+        const eventsContainer = document.getElementById("events-container");
+        const email = '<%= user.email %>';
+
+        fetch(`/user/getEvents?email=${encodeURIComponent(email)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                eventsContainer.innerHTML = "";
+                if (data.events && data.events.length > 0) {
+                    data.events.forEach(event => {
+                        const eventDiv = document.createElement("div");
+                        eventDiv.classList.add("event");
+                        eventDiv.innerHTML = `
+                            <div class="icon">
+                                <img src="/images/notification.png" alt="Event Icon">
+                            </div>
+                            <p>${event.eventTitle}</p>
+                            <button class="unparticipate-btn" data-event-id="${event._id}">Unparticipate</button>
+                            <p>${new Date(event.startDateTime).toLocaleDateString()}</p>
+                        `;
+                        eventsContainer.appendChild(eventDiv);
+                    });
+                } else {
+                    eventsContainer.innerHTML = "<p>No events found</p>";
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching events:", error);
+                eventsContainer.innerHTML = "<p>Failed to load events</p>";
+            });
+    }
+
+    function unparticipate(email, eventId) {
+        fetch('/user/participant', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, eventId }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Successfully unparticipated!");
+                    fetchEvents();
+                } else {
+                    console.error("Error unparticipating:", response);
+                    alert("Failed to unparticipate from the event.");
+                }
+            })
+            .catch(error => {
+                console.error("Error unparticipating:", error);
+                alert("An error occurred while unparticipating from the event.");
+            });
+    }
+</script>
+
 </body>
 </html>
